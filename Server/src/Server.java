@@ -22,7 +22,7 @@ public class Server {
 	Date hoje = new Date();
 	String hora;
 	
-	
+	// Ruhan é meu pai
 	private void criarServerSocket(int porta) throws IOException {
 		serverSocket = new ServerSocket(porta);
 	}
