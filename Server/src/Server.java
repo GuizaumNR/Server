@@ -10,7 +10,7 @@ import java.util.Date;
 
 import javax.print.attribute.standard.Severity;
 
-public class Server {
+public class Server extends Socket{
   
 	private ServerSocket serverSocket;
 	private static String VIRGULA = ",";
@@ -22,7 +22,7 @@ public class Server {
 	Date hoje = new Date();
 	String hora;
 	
-	// Ruhan é meu pai
+	
 	private void criarServerSocket(int porta) throws IOException {
 		serverSocket = new ServerSocket(porta);
 	}
@@ -31,9 +31,6 @@ public class Server {
 		return socket;
 	}
 	
-	private void fechaSocket(Socket s) throws IOException {
-		s.close();
-	}
 	
 	public void tratarConexao(Socket socket) throws IOException {
 		try {
@@ -129,20 +126,24 @@ public class Server {
 		} catch(IOException e){
 		System.out.println("Problema ao se conectar com o cliente: " + socket.getInetAddress());
 		System.out.println("Erro " + e.getMessage());
-	} /*finally {
-		fechaSocket(socket);
-	}*/
+	} 
 	}
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
+		Server server = new Server();
+		server.criarServerSocket(5555);
+		int i = 1;
 		try {
 			do {
-		    Server server = new Server();
-		    System.out.println("Aguardando conexão...");
-			server.criarServerSocket(5555);
+				if(i == 1) {
+		        System.out.println("Aguardando conexão...");
+				}else if(i == 2) {
+				System.out.println("Aguardando proxima conexão...");
+				}
 	    	Socket socket = server.esperaConexao();
 	    	System.out.println("Cliente conectado.");
 		    server.tratarConexao(socket);
 	        System.out.println("Cliente finalizado.");
+	        i = 2;
 			} while(1 == 1);
 			
 		} catch (IOException e) {
